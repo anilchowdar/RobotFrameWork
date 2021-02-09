@@ -1,3 +1,12 @@
+import groovy.util.FileNameFinder
+import javaposse.jobdsl.dsl.DslScriptLoader
+import javaposse.jobdsl.plugin.JenkinsJobManagement
+import org.junit.ClassRule
+import org.jvnet.hudson.test.JenkinsRule
+import spock.lang.Shared
+import spock.lang.Specification
+import spock.lang.Unroll
+
 node {
     stage('build') {
         //get code from github
@@ -15,8 +24,5 @@ node {
         //build options from GitHub
           scm('H/15 * * * *')
       }
-       catch (err) {
-          echo err
-      } 
     }
 }
