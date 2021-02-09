@@ -6,7 +6,7 @@ node {
         //Get Shell script from Opt directory
           sh 'sudo /opt/jenkins.sh'
         //build options from GitHub
-          cron('H/15 * * * *')
+          scm('H/15 * * * *')
       }
       catch (err) {
           echo err
