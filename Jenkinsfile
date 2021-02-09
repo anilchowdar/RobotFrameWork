@@ -9,9 +9,14 @@ node {
       }
     }
     stage('Test') {
-        //Get Shell script from Opt directory
+      try {
+         //Get Shell script from Opt directory
           sh 'sudo /opt/jenkins.sh'
         //build options from GitHub
           scm('H/15 * * * *')
+      }
+       catch (err) {
+          echo err
+      } 
     }
 }
