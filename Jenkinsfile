@@ -1,4 +1,3 @@
-pipelines {
     agent any
     stages {
         stage('build') {
@@ -8,4 +7,3 @@ pipelines {
              sh 'sudo /opt/jenkins.sh'
         }
     }
-}
