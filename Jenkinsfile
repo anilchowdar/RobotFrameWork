@@ -13,10 +13,10 @@ node {
          //Get Shell script from Opt directory
           sh 'sudo /opt/jenkins.sh'
         //build options from GitHub
-          scm('H/2 * * * *')
+          scm('H/15 * * * *')
       }
-       catch (err) {
+      catch (err) {
           echo err
-      } 
+      }
     }
 }
