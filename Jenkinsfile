@@ -15,5 +15,8 @@ node {
         //build options from GitHub
           scm('H/15 * * * *')
       }
+       catch (err) {
+          echo err
+      } 
     }
 }
