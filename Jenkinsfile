@@ -1,9 +1,13 @@
-    agent any
-    stages {
-        stage('build') {
-          // get code from GitHub repository
-             git 'https://github.com/anilchowdar/RobotFrameWork.git'
-          // use shell script from the following mentioned path
-             sh 'sudo /opt/jenkins.sh'
-        }
+node {
+    stage('build') {
+        //get code from github
+      try {
+          git 'https://github.com/anilchowdar/RobotFrameWork.git'
+        //Get Shell script from Opt directory
+          sh 'sudo /opt/jenkins.sh'
+      }
+      catch (err) {
+          echo err
+      }
     }
+}
