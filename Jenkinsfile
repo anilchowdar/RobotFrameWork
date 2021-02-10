@@ -12,11 +12,17 @@ node {
       try {
           //Get Shell script from Opt directory
           sh 'sudo /opt/jenkins.sh'
-          //build options from GitHub
-          cron('H/2 * * * *')
-      }
+         }
       catch (err) {
           echo 'Test is Successful'
+      }
+      triggers {
+          //Triggering Job Functiond
+          cron('H/2 * * * *')
+      }
+
+
+          }
       }
     }
 }
