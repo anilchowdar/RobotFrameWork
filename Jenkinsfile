@@ -18,7 +18,7 @@ node () {
       allowMissing: false,
       alwaysLinkToLastBuild: false,
       keepAll: true,
-      reportDir: '/var/lib/jenkins/workspace/RobotFrameWork/',
+      reportDir: '/var/lib/jenkins/workspace/*/',
       reportFiles: 'report.html',
       reportName: "Report HTML"
     ])
