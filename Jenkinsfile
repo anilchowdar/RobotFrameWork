@@ -1,8 +1,3 @@
-def nginxUtils = new NginxUtilities(this);
-def angularDockerUtils = new AngularDockerUtilities(this);
-def aspNetCoreUtils = new AspNetCoreUtilities(this);
-def aspNetCoreK8sUtils = new AspNetCoreK8sUtil(this);
-
 node {
     try {
         def projectName = "cleanuptruckscheduler";
