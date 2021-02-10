@@ -1,40 +1,31 @@
-#!/usr/bin/env groovy
-
-import hudson.model.*
-import hudson.EnvVars
-import groovy.json.JsonSlurperClassic
-import groovy.json.JsonBuilder
-import groovy.json.JsonOutput
-import java.net.URL
-
-
-node {
-    timestamps {
-            stage('Build') {
-            // checkout scm
-            checkout([$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'LocalBranch', localBranch: "**"]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'svc_jenkins', url: 'https://github.com/anilchowdar/RobotFrameWork.git']]])
-            gitBranch = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-            }
-            stage("Test") {
-                timeout(time: 2, unit: "MINUTES") {
-                    sh "echo Start Jenkins Pipeline script for branch: ${gitBranch}"
-                }
-            }
-            stage('Smoke') {
-        try {
-            sh "mvn clean verify -Dtags='type:Smoke'"
-        } catch (err) {
-            
-        } finally {
-            publishHTML (target: [
-            reportDir: 'target/site/serenity',
-            reportFiles: 'index.html',
-            reportName: "Smoke tests report"
-            ])
-        }
-   }
+timestamps {
+node () {
+   stage ('RobotFrameWork - Checkout') {
+     //Git Checkout
+       checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/anilchowdar/RobotFrameWork']]])
+       gitBranch = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim() 
+	}
+   stage ('RobotFrameWork - Build') {
+ 	 // Shell build step
+    sh """  
+      sudo /opt/jenkins.sh 
+       """ 
     }
+   stage ('RobotFrameWork - Publish HTML Reports') {
+     // publish html
+     // snippet generator doesn't include "target:"
+    publishHTML (target: [
+      allowMissing: false,
+      alwaysLinkToLastBuild: false,
+      keepAll: true,
+      reportDir: '/var/lib/jenkins/workspace/RobotFrameWork/',
+      reportFiles: 'report.html',
+      reportName: "Report HTML"
+    ])
+	}
+  }
 }
+
 
 def notify(status){
     emailext (
