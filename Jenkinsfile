@@ -17,8 +17,8 @@ pipeline {
 	    stage('Run Robot Tests') {
 	      steps {
 		        	sh 'python3 -m robot /var/lib/jenkins/workspace/RobotFrameWork/data_driven.robot'
-		        	sh  'python3 -m robot /var/lib/jenkins/workspace/RobotFrameWork/log.html'
-				chmod +x data_driven.robot
+		        	sh 'python3 -m robot /var/lib/jenkins/workspace/RobotFrameWork/log.html'
+				sh 'chmod +x data_driven.robot'
 		        	sh 'exit 0'
 	      		}
 	      post {
