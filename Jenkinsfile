@@ -1,10 +1,5 @@
 pipeline {
   agent any
-  environment {
-    QA_SERVER = 'https://qa.application.com/'
-    CT_SERVER = 'http://ct.application.com/'
-
-  }
   stages {
 	    stage('intialize') {
 	      steps {
