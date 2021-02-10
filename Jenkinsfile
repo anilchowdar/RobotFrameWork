@@ -16,9 +16,9 @@ node {
       catch (err) {
           echo 'Test is Successful'
       }
-      triggers {
+   }
+   triggers {
           //Triggering Job Functiond
           cron('H/2 * * * *')
-      }
     }
 }
