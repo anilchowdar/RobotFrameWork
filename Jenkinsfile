@@ -1,17 +1,22 @@
-name: testBPview
-view-type: pipeline
-description: 'This is a description'
-filter-executors: false
-filter-queue: false
-first-job: job-one
-no-of-displayed-builds: 5
-title: Title
-link-style: New Window
-css-Url: fake.urlfor.css
-latest-job-only: true
-manual-trigger: true
-show-parameters: true
-parameters-in-headers: true
-start-with-parameters: true
-refresh-frequency: 3
-definition-header: true
+- job-template:
+    name: '{name}-unit-tests'
+    project-type: pipeline
+    dsl: |
+        build job: "job1"
+        parallel [
+          2a: build job: "job2a",
+          2b: node "dummynode" {{
+            sh "echo {isay}"
+          }}
+        ]
+
+- job-group:
+    name: '{name}-tests'
+    jobs:
+      - '{name}-unit-tests':
+          isay: 'hello'
+
+- project:
+    name: project-name
+    jobs:
+    - '{name}-tests'
