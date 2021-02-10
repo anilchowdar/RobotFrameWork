@@ -1,66 +1,47 @@
-node {
-    try {
-        def projectName = "cleanuptruckscheduler";
-        
-        def cleanupApiArtifactName = "cleanup-webapi";
-        def svcName = "cleanuptruckscheduler.service";
-        def cleanupApiPath = "CleanupTruckScheduler/CleanupTruckScheduler.Api/CleanupTruckScheduler.Api";
-        def ngProjectPath = "CleanupTruckScheduler/CleanupTruckScheduler.App";
-        def gitBranch = "";
+pipeline {
+  agent {
+      label 'qatest'
+  }
+  environment {
+    QA_SERVER = 'https://qa.application.com/'
+    CT_SERVER = 'http://ct.application.com/'
 
-        stage('checkout') {
-            // checkout scm
-            checkout([$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'LocalBranch', localBranch: "**"]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'svc_jenkins', url: 'http://https://github.com/anilchowdar/RobotFrameWork.git']]])
-            gitBranch = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-            sh "echo Start Jenkins Pipeline script for branch: ${gitBranch}"
-        }
-        
-        dir("${cleanupApiPath}") {
-            stage('cleanuptruck-api') {
-                // compile
-                aspNetCoreUtils.build(cleanupApiArtifactName);
-                // test
-
-                // integration test
-                
-                // deploy
-                aspNetCoreUtils.deploy(gitBranch, projectName, svcName);
-                // aspNetCoreK8sUtils.deploy(metaApiArtifactName, version, gitBranch, "../kubernetes/deployments/metadata-api-template.yaml"); 
-                
-                // swagger
-                // aspNetCoreUtils.swaggerGen(metaApiArtifactName, gitTag, gitBranch, swaggerEndpoint, swaggerLang);
-            }
-
-            stage('nginx') {
-                // TODO: pass in branch name
-                nginxUtils.deploy(gitBranch, projectName);
-            }
-        }
-
-        // Angular stuff
-        dir("${ngProjectPath}") {
-            stage('ng client') {
-                // BUILD
-                angularDockerUtils.compile('args')
-                // DEPLOY ASSETS
-                angularDockerUtils.deploy(gitBranch, "cleanuptruckscheduler", "cleanuptruckscheduler");
-            }
-        }
-
-        // notify('Success')
-    } catch(err) {
-        notify("Error ${err}")
-        currentBuild.result = 'FAILURE'
-    }
+  }
+  stages {
+	    stage('intialize') {
+	      steps {
+	        sh 'echo "PATH= ${PATH}'
+	      }
+	    }
     
-}
-
-def notify(status){
-    emailext (
-      to: " ",
-      replyTo: 'noreply@jenkinsbuildserver',
-      subject: "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-      body: """<p>${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-        <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>""",
-    )
+	    stage('Run Robot Tests') {
+	      steps {
+		        	sh 'python3 -m rflint --ignore LineTooLong myapp'
+		        	sh 'python3 -m robot.run --NoStatusRC --variable SERVER:${CT_SERVER} --outputdir reports1 myapp/uiTest/testCases/smokeSuite/'
+		        	sh 'python3 -m robot.run --NoStatusRC --variable SERVER:${CT_SERVER} --rerunfailed reports1/output.xml --outputdir reports myapp/uiTest/testCases/smokeSuite/'
+		        	sh 'python3 -m robot.rebot --merge --output reports/output.xml -l reports/log.html -r reports/report.html reports1/output.xml reports/output.xml'
+		        	sh 'exit 0'
+	      		}
+	      post {
+        	always {
+		        script {
+		          step(
+			            [
+			              $class              : 'RobotPublisher',
+			              outputPath          : 'reports',
+			              outputFileName      : '**/output.xml',
+			              reportFileName      : '**/report.html',
+			              logFileName         : '**/log.html',
+			              disableArchiveOutput: false,
+			              passThreshold       : 50,
+			              unstableThreshold   : 40,
+			              otherFiles          : "**/*.png,**/*.jpg",
+			            ]
+		          	)
+		        }
+	  		}		
+	    }
+	}    
+  }
+  
 }
