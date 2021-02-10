@@ -12,10 +12,11 @@ node {
       try {
           //Get Shell script from Opt directory
           sh 'sudo /opt/jenkins.sh'
-         }
       triggers {
           cron('H/2 * * * *')
       }
+     }
+      
       catch (err) {
           echo 'Test is Successful'
       }
