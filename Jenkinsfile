@@ -1,7 +1,3 @@
-@Library('jenkins-angular-sharedlib@file-copy-1.0.0') angularLib 
-@Library('jenkins-aspnetcore-sharedlib@file-copy-1.0.0') aspnetcoreLib 
-@Library('jenkins-nginx-sharedlib@1.0.0') nginxLib 
-
 def nginxUtils = new NginxUtilities(this);
 def angularDockerUtils = new AngularDockerUtilities(this);
 def aspNetCoreUtils = new AspNetCoreUtilities(this);
