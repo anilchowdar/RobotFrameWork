@@ -20,9 +20,5 @@ node {
           //Triggering Job Functiond
           cron('H/2 * * * *')
       }
-
-
-          }
-      }
     }
 }
