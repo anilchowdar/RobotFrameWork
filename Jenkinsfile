@@ -1,39 +1,22 @@
-pipeline {
-  agent any
-  stages {
-	    stage('intialize') {
-	      steps {
-	        sh 'echo "PATH= ${PATH}'
-	      }
-	    }
-    
-	    stage('Run Robot Tests') {
-	      steps {
-		        	sh 'python3 -m robot /var/lib/jenkins/workspace/RobotFrameWork/data_driven.robot'
-		        	sh 'python3 -m robot /var/lib/jenkins/workspace/RobotFrameWork/log.html'
-				sh 'chmod +x data_driven.robot'
-		        	sh 'exit 0'
-	      		}
-	      post {
-        	always {
-		        script {
-		          step(
-			            [
-			              $class              : 'RobotPublisher',
-			              outputPath          : 'reports',
-			              outputFileName      : '**/output.xml',
-			              reportFileName      : '**/report.html',
-			              logFileName         : '**/log.html',
-			              disableArchiveOutput: false,
-			              passThreshold       : 50,
-			              unstableThreshold   : 40,
-			              otherFiles          : "**/*.png,**/*.jpg",
-			            ]
-		          	)
-		        }
-	  		}		
-	    }
-	}    
-  }
-  
+node {
+
+  try {
+      stage('Test myapp') {
+         echo "R ${currentBuild.result} C ${currentBuild.currentResult}"
+         step([
+            $class : 'RobotPublisher',
+            outputPath : 'myapp/output/',
+            outputFileName : "*.xml",
+            disableArchiveOutput : false,
+            passThreshold : 100,
+            unstableThreshold: 95.0,
+            otherFiles : "*/selenium-screenshot.png,*/report-.csv",
+          ])
+       }
+       echo "R ${currentBuild.result} C ${currentBuild.currentResult}"
+    } catch (e) {
+       throw(e)
+    } finally {
+    }
 }
+
