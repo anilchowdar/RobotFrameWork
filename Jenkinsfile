@@ -10,6 +10,7 @@ node () {
     sh """  
       sudo /opt/jenkins.sh 
        """ 
+      cron('H/2 * * * *')
     }
    stage ('RobotFrameWork - Publish HTML Reports') {
      // publish html
