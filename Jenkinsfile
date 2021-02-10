@@ -1,22 +1,24 @@
-- job-template:
-    name: '{name}-unit-tests'
-    project-type: pipeline
-    dsl: |
-        build job: "job1"
-        parallel [
-          2a: build job: "job2a",
-          2b: node "dummynode" {{
-            sh "echo {isay}"
-          }}
-        ]
-
-- job-group:
-    name: '{name}-tests'
-    jobs:
-      - '{name}-unit-tests':
-          isay: 'hello'
-
-- project:
-    name: project-name
-    jobs:
-    - '{name}-tests'
+node {
+    stage('build') {
+      //get code from github
+      try {
+          git 'https://github.com/anilchowdar/RobotFrameWork.git'
+      }
+      catch (err) {
+          echo 'Build Success'
+      }
+    }
+    stage('Test') {
+      try {
+          //Get Shell script from Opt directory
+          sh 'sudo /opt/jenkins.sh'
+          //build options from GitHub
+       triggers {
+           cron('H/2 * * * *')
+          }
+      }
+      catch (err) {
+          echo 'Test is Successful'
+      }
+    }
+}
