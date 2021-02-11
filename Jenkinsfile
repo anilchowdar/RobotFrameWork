@@ -4,7 +4,7 @@ properties(
         pipelineTriggers([
                 [
                     $class: 'TimerTrigger',
-                    spec: '* * * * *'
+                    spec: 'H/2 * * * *'
                 ]
          ])
     ]
