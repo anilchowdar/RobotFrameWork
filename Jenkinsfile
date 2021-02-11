@@ -19,7 +19,7 @@ node () {
       allowMissing: false,
       alwaysLinkToLastBuild: false,
       keepAll: true,
-      reportDir: '/var/lib/jenkins/workspace/report.html',
+      reportDir: '/var/lib/jenkins/workspace/*.html',
       reportFiles: 'report.html',
       reportName: "Report HTML"
     ])
