@@ -7,10 +7,7 @@ node () {
 	}
    stage ('RobotFrameWork - Build') {
  	 // Shell build step
-    sh """  
-      sudo /opt/jenkins.sh 
-       """ 
-      cron('H/2 * * * *')
+    sh "python3 -m robot /var/lib/jenkins/workspace/*.robot"
     }
    stage ('RobotFrameWork - Publish HTML Reports') {
      // publish html
@@ -19,7 +16,7 @@ node () {
       allowMissing: false,
       alwaysLinkToLastBuild: false,
       keepAll: true,
-      reportDir: '/report.html',
+      reportDir: '/var/lib/jenkins/workspace/RobotFrameWork/',
       reportFiles: 'report.html',
       reportName: "Report HTML"
     ])
