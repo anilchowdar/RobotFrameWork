@@ -1,4 +1,14 @@
 timestamps {
+properties(
+    [
+        pipelineTriggers([
+                [
+                    $class: 'TimerTrigger',
+                    spec: 'H/2 * * * *'
+                ]
+         ])
+    ]
+    )
 node () {
    stage ('RobotFrameWork - Checkout') {
      //Git Checkout
@@ -9,16 +19,6 @@ node () {
  	 // Shell build step
     sh "python3 -m robot /var/lib/jenkins/workspace/*/*.robot"
     }
-    properties(
-    [
-        pipelineTriggers([
-                [
-                    $class: 'TimerTrigger',
-                    spec: 'H/2 * * * *'
-                ]
-         ])
-    ]
-    )
    stage ('RobotFrameWork - Publish HTML Reports') {
      // publish html
      // snippet generator doesn't include "target:"
@@ -33,6 +33,8 @@ node () {
 	}
   }
 }
+
+
 
 
 def notify(status){
