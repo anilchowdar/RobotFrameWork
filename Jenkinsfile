@@ -8,8 +8,7 @@ node () {
    stage ('RobotFrameWork - Build') {
  	 // Shell build step
 	   
-    sh "sudo python3 -m robot /var/lib/jenkins/workspace/*/*.robot"
-       "chmod +x /var/lib/jenkins/workspace/*/*.robot"
+    sh "sudo python3 -m robot /var/lib/jenkins/workspace/pipeline-3/datadriven.robot"
 	   
     }
    stage ('RobotFrameWork - Publish HTML Reports') {
