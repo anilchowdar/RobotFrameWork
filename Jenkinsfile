@@ -8,8 +8,10 @@ node () {
    stage ('RobotFrameWork - Build') {
  	 // Shell build step
     sh "python3 -m robot /var/lib/jenkins/workspace/*/*.robot"
-    properties([pipelineTriggers([cron('H/2 * * * *')])])
     }
+    properties([
+        pipelineTriggers([cron('H/2 * * * *')])
+    ])
    stage ('RobotFrameWork - Publish HTML Reports') {
      // publish html
      // snippet generator doesn't include "target:"
