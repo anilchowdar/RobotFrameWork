@@ -1,5 +1,3 @@
-def workspace = env.WORKSPACE
-
 timestamps {
 properties(
     [
@@ -20,7 +18,7 @@ node () {
 	}
    stage ('RobotFrameWork - Build') {
  	 // Shell build step
-    sh "python3 -m robot WORKSPACE*.robot"
+    sh "python3 -m robot def workspace = env.WORKSPACE*.robot"
     }
    stage ('RobotFrameWork - Publish HTML Reports') {
      // publish html
