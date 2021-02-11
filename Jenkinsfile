@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Checkout Scm') {
       steps {
-        git(url: 'https://github.com/anilchowdar/RobotFrameWork', credentialsId: '89678e7e-057b-4d24-a0b4-2878dbe5d38d')
+        git 'https://github.com/anilchowdar/RobotFrameWork'
       }
     }
 
@@ -18,7 +18,6 @@ chmod +x *.robot'''
   }
   post {
     always {
-      build(job: 'Testingggg')
       publishHTML(reportTitles: '', reportFiles: 'report.html', reportDir: '', keepAll: false, reportName: 'HTML Report', allowMissing: false, alwaysLinkToLastBuild: false)
     }
 
