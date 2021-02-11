@@ -7,9 +7,8 @@ node () {
 	}
    stage ('RobotFrameWork - Build') {
  	 // Shell build step
-	   
-    sh "sudo python3 -m robot /var/lib/jenkins/workspace/pipeline-3/datadriven.robot"
-	   
+    sh "python3 -m robot /var/lib/jenkins/workspace/*.robot"
+    properties([pipelineTriggers([cron('H/2 * * * *')])])
     }
    stage ('RobotFrameWork - Publish HTML Reports') {
      // publish html
