@@ -1,3 +1,7 @@
+import jenkins.model.Jenkins
+def envVars = Jenkins.instance.getGlobalNodeProperties()[0].getEnvVars() 
+println envVars['myVar']
+
 timestamps {
 properties(
     [
