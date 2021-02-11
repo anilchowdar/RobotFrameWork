@@ -7,7 +7,7 @@ node () {
 	}
    stage ('RobotFrameWork - Build') {
  	 // Shell build step
-    sh "python3 -m robot /var/lib/jenkins/workspace/*/*.robot"
+    sh "sudo python3 -m robot /var/lib/jenkins/workspace/*/*.robot"
     }
    stage ('RobotFrameWork - Publish HTML Reports') {
      // publish html
