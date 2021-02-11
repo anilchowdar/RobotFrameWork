@@ -9,6 +9,7 @@ properties(
          ])
     ]
     )
+echo "BUILD_NUMBER =  ${env.BUILD_NUMBER}" // prints "BUILD_NUMBER = 2"
 node () {
    stage ('RobotFrameWork - Checkout') {
      //Git Checkout
