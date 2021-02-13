@@ -1,6 +1,6 @@
 * Test Cases *
 LoginTest
-    open browser  https://demo.nopcommerce.com/   chrome
+    open browser  https://dem.nopcommerce.com/   chrome
     click link  xpath://a[contains(text(),'Log in')]
     input text  id:Email  saidarao210@gmail.com
     input text  id:Password  India@123
