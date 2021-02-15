@@ -17,8 +17,8 @@ Library           CalculatorLibrary.py
 Addition              12 + 2 + 2    16
                       2 + -3        -1
 
-Subtraction           12 - 2 - 2    8
-                      2 - -3        5
+Subtraction           12 - 2 - 2    
+                      2 - -3        
 
 Multiplication        12 * 2 * 2    48
                       2 * -3        -6
